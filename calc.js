@@ -26,5 +26,7 @@ buttons.forEach(button =>{
 
 function calcAns(){
     console.log("we are here")
-    console.log(num1,num2,operation)
+    console.log("num1=",num1)
+    console.log("num2=",num2)
+    console.log("operation=",operation)
 }
