@@ -3,7 +3,7 @@ let num2 = 0;
 let operation = "";
 
 function printCalc(num1,num2){
-   
+   //getting values for all the buttons
    const buttons = document.querySelectorAll('.btn btn-light');
    buttons.forEach(button =>{
     button.addEventListener('click',function(){
