@@ -4,7 +4,7 @@ let operation = "";
 
 function printCalc(){
    //getting values for all the buttons
-   const buttons = document.querySelectorAll('.btn btn-light');
+   const buttons = document.querySelectorAll('.btn');
    buttons.forEach(button =>{
     button.addEventListener('click',function(){
         if(num1 == 0){
