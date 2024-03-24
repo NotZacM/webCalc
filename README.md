@@ -1,2 +1,2 @@
 # webCalc
-A simple scientific calculator
+A simple scientific calculator in progress
