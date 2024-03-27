@@ -1,8 +1,8 @@
 let num1 = ""
 let num2 = ""
 let operation = ""
-nums = []
-operations = []
+let nums = []
+let operations = []
 let ans = 0
 let buttons = document.querySelectorAll('.btn')
 let calcLine = document.createElement("h2")
@@ -26,6 +26,10 @@ buttons.forEach(function(button) {
         }  
     })
    })
+
+function calcFunc(){
+
+}
 
 
 function calcAns(){
