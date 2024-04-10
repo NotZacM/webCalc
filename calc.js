@@ -4,9 +4,10 @@ let nums = []
 let operations = []
 let ans = 0
 let buttons = document.querySelectorAll('.btn')
+let posM = []
+let posD = []
 //let calcLine = document.createElement("h2")
 calcLine = ""
-//nums.length != 0 && nums.length % 2 != 0 &&
 //getting values for all the buttons   
 buttons.forEach(function(button) {
     button.addEventListener('click',function(){
@@ -50,6 +51,53 @@ function doOperation(op, num1, num2){
     }
 }
 
+function handleBedmas(){
+    for(i = 0;i < operations.length;i++){
+        if(operations[i] == "*"){
+            posM.push(i)
+        }
+    }
+    result = 0
+    for(i = 0; i < posM.length; i++){
+        result = nums[posM[i]] * nums[posM[i] + 1]
+        for(j = posM[i]; j < nums.length; j++){
+            if(j != nums.length){
+                nums[j] = nums[j + 1]
+            }
+            if(j != operations.length){
+                operations[j] = operations[j + 1]
+            }
+
+        }
+        nums.pop()
+        operations.pop()
+        nums[posM[i]] = result
+    }
+    for(i = 0;i < operations.length;i++){
+        if(operations[i] == "/"){
+            posD.push(i)
+        }
+    }
+    console.log(nums)
+    console.log(operations)
+    result = 0
+    for(i = 0; i < posD.length; i++){
+        result = nums[posD[i]] / nums[posD[i] + 1]
+        for(j = (posD[i]); j < nums.length; j++){
+            if(j != nums.length){
+                nums[j] = nums[j + 1]
+            }
+            if(j != operations.length){
+                operations[j] = operations[j + 1]
+            }
+        }
+        nums.pop()
+        operations.pop()
+        nums[posD[i]] = result
+    }
+    console.log(nums)
+}
+
 
 function calcAns(){
     for(let i = 0; i < nums.length; i++){
@@ -64,13 +112,15 @@ function calcAns(){
             calcLine += " "
         }
     }
+    if(operations.includes("*") || operations.includes("/")){
+        handleBedmas()
+    }
     for(let i = 0; i < operations.length;i++){
         if(i == 0){
             ans = doOperation(operations[i],nums[i],nums[i + 1])
         }else{
             ans = doOperation(operations[i],ans,nums[i + 1])
         }
-
     }
     calcLine += String(ans)
     let calc = document.createElement("h2") 
