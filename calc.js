@@ -18,7 +18,7 @@ buttons.forEach(function(button) {
         else{
             createNum(button.value)
         }
-        if(!(parseFloat(button.value) >= 0 && parseFloat(button.value) <= 9)){
+        if(!(parseFloat(button.value) >= 0 && parseFloat(button.value) <= 9) && button.value != "."){
             operations.push(button.value)
         }  
     })
@@ -115,11 +115,16 @@ function calcAns(){
     if(operations.includes("*") || operations.includes("/")){
         handleBedmas()
     }
-    for(let i = 0; i < operations.length;i++){
-        if(i == 0){
-            ans = doOperation(operations[i],nums[i],nums[i + 1])
-        }else{
-            ans = doOperation(operations[i],ans,nums[i + 1])
+    if(nums.length == 1){
+        ans = nums[0]
+    }
+    else{
+        for(let i = 0; i < operations.length;i++){
+            if(i == 0){
+                ans = doOperation(operations[i],nums[i],nums[i + 1])
+            }else{
+                ans = doOperation(operations[i],ans,nums[i + 1])
+            }
         }
     }
     calcLine += String(ans)
