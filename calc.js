@@ -15,10 +15,20 @@ buttons.forEach(function(button) {
             createNum(button.value)
             calcAns()
         }
+        else if(button.value == "clear"){
+            clearCalc()
+        }
+        else if(button.value == "cos" || button.value == "sin" || button.value == "tan" ||
+        button.value == "log" || button.value == "ln" || button.value == "sq" || 
+        button.value == "sqr" || button.value == "sqn"){
+            calcFunc(button.value)
+
+        }
         else{
             createNum(button.value)
         }
-        if(!(parseFloat(button.value) >= 0 && parseFloat(button.value) <= 9) && button.value != "."){
+        if(!(parseFloat(button.value) >= 0 && parseFloat(button.value) <= 9) && button.value != "." 
+        && button.value != "clear"){
             operations.push(button.value)
         }  
     })
@@ -35,7 +45,19 @@ function createNum(value){
     return
 }
 
-function calcFunc(){
+function clearCalc(){
+    console.log(nums)
+    console.log(operations)
+    nums.length = 0
+    operations.length = 0
+    num1 = ""
+    console.log(nums)
+    console.log(operations)
+    return
+}
+
+function calcFunc(value){
+    
 
 }
 
