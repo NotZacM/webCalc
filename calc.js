@@ -6,6 +6,7 @@ let ans = 0
 let buttons = document.querySelectorAll('.btn')
 let posM = []
 let posD = []
+let func = ""
 //let calcLine = document.createElement("h2")
 calcLine = ""
 //getting values for all the buttons   
@@ -18,26 +19,58 @@ buttons.forEach(function(button) {
         else if(button.value == "clear"){
             clearCalc()
         }
-        else if(button.value == "cos" || button.value == "sin" || button.value == "tan" ||
+        else if((button.value == "cos" || button.value == "sin" || button.value == "tan" ||
         button.value == "log" || button.value == "ln" || button.value == "sq" || 
-        button.value == "sqr" || button.value == "sqn"){
-            calcFunc(button.value)
-
+        button.value == "sqr" || button.value == "sqn") && func == ""){
+            func = button.value
+            calcLine += func
         }
         else{
             createNum(button.value)
         }
         if(!(parseFloat(button.value) >= 0 && parseFloat(button.value) <= 9) && button.value != "." 
-        && button.value != "clear"){
+        && button.value != "clear" && button.value != "cos" && button.value != "sin" && button.value != "tan" &&
+        button.value != "log" && button.value != "ln" && button.value != "sq" && button.value != "sqr" && 
+        button.value != "sqn"){
             operations.push(button.value)
+            calcLine += button.value
+            calcLine += " "
         }  
     })
    })
 
+const toggleButton = document.getElementById('toggleButton')
+
+let togOn = false
+
+toggleButton.addEventListener('click', function(){
+    togOn = !togOn
+    if(togOn){
+        toggleButton.textContent = 'DEG'
+    }else {
+        toggleButton.textContent = 'RAD'
+    }
+})
+
 function createNum(value){
+    result = 0
+    if(func != ""){
+        if((value == "*" || value == "/" || value == "+" || value == "-" || value == "=")){
+            calcLine += num1
+            calcLine += " "
+            result = calcFunc(func,parseFloat(num1))
+            nums.push(result)
+            num1 = ""
+            return
+        }
+        num1 += value 
+        return
+    }
     if((value == "*" || value == "/" || value == "+" || value == "-" || value == "="))
     {
         nums.push(parseFloat(num1))
+        calcLine += num1
+        calcLine += " "
         num1 = ""
         return
     }
@@ -46,19 +79,44 @@ function createNum(value){
 }
 
 function clearCalc(){
-    console.log(nums)
-    console.log(operations)
     nums.length = 0
     operations.length = 0
     num1 = ""
-    console.log(nums)
-    console.log(operations)
+    func = ""
     return
 }
 
-function calcFunc(value){
-    
-
+function calcFunc(func,value){
+    result = 0
+    console.log(func)
+    console.log(value)
+    result = value
+    if(toggleButton.textContent == 'RAD' && (func == "cos" || 
+    func == "sin" || func == "tan")){
+        result = value * (Math.PI/180)
+        console.log(result)
+    }
+    if(func == "sin"){
+        result = Math.sin(result)
+    }else if(func == "cos"){
+        console.log("did we reach here")
+        result = Math.cos(result)
+    }else if(func == "tan"){
+        result = Math.tan(result)
+    }else if(func == "log"){
+        result = Math.log(result)
+    }else if(func == "ln"){
+        result = Math.log(result)
+    }else if(func == "sq"){
+        result = result * result
+    }else if(func == "sqr"){
+        result = Math.sqrt(result)
+    }else{
+        console.log("invalid")
+    }
+    console.log(result)
+    func = ""
+    return result
 }
 
 function doOperation(op, num1, num2){
@@ -100,8 +158,6 @@ function handleBedmas(){
             posD.push(i)
         }
     }
-    console.log(nums)
-    console.log(operations)
     result = 0
     for(i = 0; i < posD.length; i++){
         result = nums[posD[i]] / nums[posD[i] + 1]
@@ -117,12 +173,13 @@ function handleBedmas(){
         operations.pop()
         nums[posD[i]] = result
     }
-    console.log(nums)
 }
 
 
 function calcAns(){
-    for(let i = 0; i < nums.length; i++){
+    calcLine += "="
+    calcLine += " "
+    /*for(let i = 0; i < nums.length; i++){
         calcLine += nums[i]
         calcLine += " "
         if(i == operations.length){
@@ -133,7 +190,9 @@ function calcAns(){
             calcLine += operations[i]
             calcLine += " "
         }
-    }
+    }*/
+    console.log(nums)
+    console.log(operations)
     if(operations.includes("*") || operations.includes("/")){
         handleBedmas()
     }
